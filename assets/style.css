@@ -66,7 +66,8 @@ main{padding-block:20px 60px;display:flex;flex-direction:column;gap:16px}
 .scene-title{position:absolute;left:12px;bottom:10px;right:12px;color:#E6F1FF;font-size:.86rem;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,.6);pointer-events:none}
 .scene-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#cfe3ff;font-size:1.1rem;text-align:center;padding:20px}
 .slidetag{position:absolute;left:10px;top:10px;background:rgba(10,30,34,.78);color:#fff;font-size:.75rem;padding:3px 9px;border-radius:99px;font-family:var(--f-mono)}
-.bigplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,20,22,.35);border:0;cursor:pointer;color:#fff;flex-direction:column;gap:8px;font-weight:600}
+.bigplay{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:flex-end;padding:0 18px 40px 0;background:linear-gradient(180deg,rgba(8,20,22,0) 55%,rgba(8,20,22,.45));border:0;cursor:pointer;color:#fff;flex-direction:row;gap:10px;font-weight:600}
+.bigplay span.c{width:56px!important;height:56px!important}
 .bigplay span.c{width:72px;height:72px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center}
 .speaker{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;margin-top:10px}
 .tutor{width:96px;aspect-ratio:1/1;border-radius:50%;background:var(--accent-soft);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line);overflow:hidden}
