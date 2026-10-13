@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI for Cybersecurity Course</title>
+<meta name="description" content="Narrated 3D lessons, scenario cases, hands-on exercises and a personal learning index for every chapter of Guide to AI for Cybersecurity: Principles, Frameworks, and Practical Implementation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+/* Home: course header with overall learning index, then a grid of chapter cards (available / coming soon). */
+.home-wrap{max-width:1100px;margin:0 auto;padding-inline:16px;padding-block:28px 60px;display:flex;flex-direction:column;gap:22px}
+.summary{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.big{font-family:var(--f-mono);font-size:2.6rem;font-weight:600;color:var(--accent);line-height:1}
+.stats{display:flex;gap:22px;flex-wrap:wrap}
+.stats div{display:flex;flex-direction:column}
+.stats small{font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.stats b{font-size:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ch{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:14px;text-decoration:none;color:inherit;min-width:0}
+a.ch:hover{border-color:var(--accent)}
+.ch .n{font-family:var(--f-mono);font-size:.76rem;color:var(--accent)}
+.ch b{font-size:1rem;line-height:1.3}
+.ch .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:var(--muted);margin-top:auto}
+.ch.soon{opacity:.55}
+.pbar{height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--accent)}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.how div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+.how b{display:block;margin-bottom:3px}
+.how span{font-size:.88rem;color:var(--muted)}
+.hero{border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#0A1222 0%,#0F2A44 60%,#0B6E99 140%);color:#E6F1FF;padding:26px 22px}
+.hero .eyebrow{color:#7DD3FC}
+.hero .lede{color:#BBD3EA}
+</style>
+</head>
+<body>
+<div class="home-wrap">
+  <header class="hero">
+    <div class="eyebrow">Online course · Springer textbook companion</div>
+    <h1 style="font-size:2.3rem;margin-top:4px">Guide to AI for Cybersecurity</h1>
+    <p style="font-family:var(--f-display);font-size:1.2rem;margin-top:4px">Principles, Frameworks, and Practical Implementation</p>
+    <p class="lede" style="margin-top:10px">Short lessons narrated by Sam, your virtual tutor, with live 3D animations, a security case to decide after each lesson and hands-on exercises. Every chapter sets a plan that fits your time and pace, and keeps a learning index so you can see where you are.</p>
+    <p style="margin-top:12px"><a href="https://link.springer.com/book/10.1007/978-3-032-17367-6" style="color:#7DD3FC;font-weight:600">The book on SpringerLink ↗</a></p>
+  </header>
+  <section class="summary" aria-label="Your course progress">
+    <div><div class="big" id="ovIdx">—</div><small style="color:var(--muted)">course learning index</small></div>
+    <div class="stats"><div><small>Level</small><b id="ovLvl">Not started</b></div><div><small>Chapters started</small><b id="ovStarted">0</b></div><div><small>Final tests taken</small><b id="ovTests">0</b></div><div><small>Lessons finished</small><b id="ovLessons">0</b></div></div>
+  </section>
+  <section class="how" aria-label="How each chapter works">
+    <div><b>1. Start</b><span>Three quick questions and your available time set your path and pace.</span></div>
+    <div><b>2. Watch</b><span>About three minutes each. Sam narrates while a 3D scene shows the idea step by step.</span></div>
+    <div><b>3. Check, case and try it</b><span>A quick check, a security case to decide, then a hands-on exercise.</span></div>
+    <div><b>4. Final test and index</b><span>Your learning index shows knowledge, applying it, self-awareness and completion.</span></div>
+  </section>
+  <section><h2 style="font-size:1.4rem;margin-bottom:10px">Chapters</h2><div class="grid" id="grid"></div>
+    <p class="foot" style="margin-top:10px">The book has 18 chapters. Further chapters are added to this course as they are completed.</p></section>
+  <p class="foot">Your progress is stored in this browser only. Nothing is sent anywhere. Use the same browser and device to keep your record, and download a certificate from each chapter as proof. Course by Prof Muthu Ramachandran.</p>
+</div>
+<script>
+const UNITS = [
+  {"id":"ch01","num":"1","title":"Modern Threat Landscape and AI Opportunities"},
+  {"id":"ch02","num":"2","title":"Cybersecurity Frameworks in the AI Era"},
+  {"id":"ch03","num":"3","title":"AI Security Architecture and Infrastructure"},
+  {"id":"ch04","num":"4","title":"Machine Learning for Threat Detection"}
+];
+const grid = document.getElementById('grid');
+function h(tag, attrs, ...kids){ const e=document.createElement(tag); if(attrs) for(const [k,v] of Object.entries(attrs)){ if(k==='class') e.className=v; else e.setAttribute(k,v);} for(const k of kids.flat()) if(k!=null&&k!==false) e.append(k.nodeType?k:document.createTextNode(k)); return e; }
+function read(id){ try { return JSON.parse(localStorage.getItem('aicy:'+id) || 'null'); } catch(e){ return null; } }
+const LEVELS = [[0,'Novice'],[40,'Advanced beginner'],[60,'Competent'],[80,'Proficient']];
+let started = 0, tests = 0, lessons = 0, sum = 0;
+UNITS.forEach(u => {
+  const s = read(u.id), m = s && s.meta;
+  const label = 'Chapter '+u.num;
+  const card = h('a',{class:'ch soon',href:u.id+'/index.html','aria-label':label+': '+u.title}, h('span',{class:'n'},label), h('b',null,u.title));
+  const meta = h('div',{class:'meta'}, h('span',null,'Checking…'));
+  if (m && m.lessons) card.append(h('div',{class:'pbar'}, h('i',{style:`width:${Math.round(100*(m.done||0)/m.lessons)}%`})));
+  card.append(meta);
+  grid.append(card);
+  if (m){ started++; lessons += (m.done||0); sum += (m.index||0); if (m.test) tests++; }
+  fetch(u.id+'/index.html', {cache:'no-store'}).then(r => r.ok ? r.text() : Promise.reject()).then(txt => {
+    if (!/Chapter/.test(txt)) throw 0;
+    meta.innerHTML=''; card.classList.remove('soon');
+    if (m) meta.append(h('span',{class:'pill '+(m.test?'good':'acc')}, `Index ${m.index||0} · ${m.level||'Novice'}`), h('span',null, `${m.done||0}/${m.lessons||'?'} lessons`));
+    else meta.append(h('span',{class:'pill acc'},'Start'), h('span',null,'Not started'));
+  }).catch(()=>{ meta.innerHTML=''; card.removeAttribute('href'); card.setAttribute('aria-disabled','true'); meta.append(h('span',null,'Coming soon')); });
+});
+if (started){ const avg = Math.round(sum/started); document.getElementById('ovIdx').textContent = avg; document.getElementById('ovLvl').textContent = LEVELS.filter(l=>avg>=l[0]).pop()[1]; }
+document.getElementById('ovStarted').textContent = started; document.getElementById('ovTests').textContent = tests; document.getElementById('ovLessons').textContent = lessons;
+</script>
+</body>
+</html>
