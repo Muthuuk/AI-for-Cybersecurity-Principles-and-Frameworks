@@ -154,3 +154,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .mail .part:hover:not(:disabled){background:var(--accent-soft)}
 .mail .part.right{background:var(--good-soft)} .mail .part.wrong{background:var(--bad-soft)}
 .mail .lbl{display:inline-block;min-width:90px;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* lesson menu arrows, hint and welcome card */
+.menuwrap{display:flex;align-items:flex-start;gap:4px}
+.menuwrap .menu{flex:1;min-width:0}
+.marrow{flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:1.2rem;line-height:1;color:var(--accent)}
+.marrow:disabled{opacity:.3;cursor:default}
+.mhint{font-size:.8rem;color:var(--muted);margin:0 0 6px 38px}
+.welcome{background:var(--accent-soft);border-color:var(--accent)}
+.welcome .guide{margin:8px 0 0;padding-left:22px;display:flex;flex-direction:column;gap:4px}

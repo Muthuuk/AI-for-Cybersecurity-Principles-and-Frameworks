@@ -76,13 +76,29 @@ function sentences(arr){ return arr.flatMap(p => (p.match(/[^.!?]+[.!?]+["'”�
 /* ---------------- navigation ---------------- */
 let curView = 'start';
 function views(){ return ['start', ...CH.lessons.map((_,i)=>'l'+i), 'final', 'progress']; }
+/* Scroll arrows either side of the lesson menu, plus a short hint, so learners can see there are more lessons off-screen. */
+function addMenuArrows(m){
+  m._arrows = true;
+  const wrap = h('div',{class:'menuwrap'});
+  m.parentNode.insertBefore(wrap, m);
+  const left = h('button',{class:'marrow',type:'button','aria-label':'Show earlier lessons',title:'Show earlier lessons',onclick:()=>m.scrollBy({left:-320,behavior:'smooth'})},'‹');
+  const right = h('button',{class:'marrow',type:'button','aria-label':'Show more lessons',title:'Show more lessons',onclick:()=>m.scrollBy({left:320,behavior:'smooth'})},'›');
+  wrap.append(left, m, right);
+  const hint = h('p',{class:'mhint'}, `This chapter has ${CH.lessons.length} lessons. Hover over a button to see what it is, and use the arrows to see them all.`);
+  wrap.after(hint);
+  const upd = () => { left.disabled = m.scrollLeft <= 2; right.disabled = m.scrollLeft + m.clientWidth >= m.scrollWidth - 2; };
+  m.addEventListener('scroll', upd, {passive:true}); addEventListener('resize', upd); setTimeout(upd, 50);
+}
 function renderMenu(){
   const m = $('#menu'); m.innerHTML = '';
-  const add = (v, label, state) => { const b = h('button',{type:'button','aria-current':String(curView===v),onclick:()=>go(v)}, state!==undefined ? h('span',{class:'dot'+(state==='done'?' done':state==='part'?' part':'')}) : null, label); m.append(b); };
-  add('start','Start', S.plan ? 'done' : '');
-  CH.lessons.forEach((l,i)=>{ const st = S.lessons[i]; add('l'+i, `${i+1}. ${l.title}`, st ? (st.done?'done':(st.watched||st.check)?'part':'') : ''); });
-  add('final','Final case test', S.test ? 'done' : '');
-  add('progress','My progress');
+  /* Each menu button carries a hover tip (title) so learners know what it opens and how far they have got. */
+  const stTxt = st => st==='done' ? ' · Done' : st==='part' ? ' · Started' : '';
+  const add = (v, label, state, tip) => { const b = h('button',{type:'button','aria-current':String(curView===v),title:(tip||label)+stTxt(state),onclick:()=>go(v)}, state!==undefined ? h('span',{class:'dot'+(state==='done'?' done':state==='part'?' part':'')}) : null, label); m.append(b); };
+  add('start','Start', S.plan ? 'done' : '', 'Start here: welcome, three warm-up questions and your personal plan');
+  CH.lessons.forEach((l,i)=>{ const st = S.lessons[i]; add('l'+i, `${i+1}. ${l.title}`, st ? (st.done?'done':(st.watched||st.check)?'part':'') : '', `Lesson ${i+1} of ${CH.lessons.length}: ${l.title} (about ${l.minutes||3} minutes). Watch, check, decide a case, then try it`); });
+  add('final','Final case test', S.test ? 'done' : '', 'Final case test: questions from every lesson in this chapter');
+  add('progress','My progress', undefined, 'Your learning index, lesson record and certificate');
+  if (!m._arrows) addMenuArrows(m);
   const cur = m.querySelector('[aria-current="true"]'); if (cur) cur.scrollIntoView({block:'nearest',inline:'center'});
 }
 function renderChip(){ const M = metrics(); $('#idxVal').textContent = M.index; $('#idxLvl').textContent = M.level; }
@@ -101,6 +117,17 @@ addEventListener('visibilitychange', ()=>{ if (document.hidden) flushTime(); els
 /* ---------------- START: personal plan ---------------- */
 function renderStart(main){
   const plan = S.plan || {time:10, style:'listen', rate:0.95, voice:null};
+  /* Welcome and quick guide: tells a first-time visitor what this site is and exactly where to begin. */
+  const first = !S.plan && !Object.keys(S.lessons||{}).length;
+  main.append(h('div',{class:'card welcome'},
+    h('h3',null, first ? 'Welcome' : 'Welcome back'),
+    h('p',null,'This is the companion self-learning site for the Springer textbook ', h('i',null,'Guide to AI for Cybersecurity: Principles, Frameworks, and Practical Implementation'), ' by Prof Muthu Ramachandran.'),
+    h('ol',{class:'guide'},
+      h('li',null, h('b',null,'Answer the three warm-up questions'),' below. Each one is marked straight away.'),
+      h('li',null, h('b',null,'Make your plan'),' by choosing your time and learning style.'),
+      h('li',null, h('b',null,'Start with Lesson 1'),' using the row of buttons at the top of the page. Each button is one short lesson: watch, check, decide a case, then try a hands-on exercise.'),
+      h('li',null, h('b',null,'Finish with the Final case test'),'. A green dot on a button means that part is done.')),
+    h('div',{class:'row',style:'margin-top:10px'}, h('button',{class:'btn primary',type:'button',onclick:()=>go('l'+firstUnfinished())}, first ? 'Go to Lesson 1' : 'Continue: lesson '+(firstUnfinished()+1)), h('span',{class:'lede',style:'font-size:.88rem'}, first ? 'Or answer the warm-up questions first for a plan that fits you.' : ''))));
   main.append(h('div',null, h('div',{class:'eyebrow'}, CH.num==='A' ? 'Appendix A' : 'Chapter '+CH.num), h('h2',{style:'font-size:2rem;margin-top:4px'}, CH.title), h('p',{class:'lede',style:'margin-top:8px'}, CH.summary)));
   main.append(h('div',{class:'card'}, h('h3',null,'What you will be able to do'), h('ul',{style:'margin:0;padding-left:20px'}, CH.outcomes.map(o=>h('li',null,o)))));
   const ans = (S.starter && S.starter.answers) ? S.starter.answers.slice() : CH.starter.map(()=>null);
