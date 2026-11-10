@@ -106,10 +106,21 @@ function renderStart(main){
   const ans = (S.starter && S.starter.answers) ? S.starter.answers.slice() : CH.starter.map(()=>null);
   const sq = h('div',{style:'display:flex;flex-direction:column;gap:14px'});
   CH.starter.forEach((q,i)=>{ const box = h('div',null, h('p',{class:'q'}, `${i+1}. ${q.q}`)); const opts = h('div',{class:'opts'});
-    q.o.forEach((o,j)=>{ const b = h('button',{class:'opt',type:'button','aria-pressed':String(ans[i]===j)}, o); if (ans[i]===j) b.style.borderColor='var(--accent)';
-      b.onclick = () => { ans[i]=j; opts.querySelectorAll('.opt').forEach(x=>{x.style.borderColor='';}); b.style.borderColor='var(--accent)'; }; opts.append(b); });
-    box.append(opts); sq.append(box); });
-  main.append(h('div',{class:'card'}, h('h3',null,'1. Where are you starting from?'), h('p',{class:'lede',style:'margin-bottom:12px'},'Three quick questions. There is no pass mark: your answers just set the right pace for you.'), sq));
+    /* Instant feedback: the first answer is marked right or wrong and explained, then the question locks
+       so the starter score stays a fair measure of where the learner is starting from. */
+    const fb = h('p',{class:'fb','aria-live':'polite'});
+    const mark = (j) => {
+      opts.querySelectorAll('.opt').forEach((x,k)=>{ x.disabled = true; x.setAttribute('aria-pressed', String(k===j));
+        if (k===q.a) x.classList.add('right'); else if (k===j) x.classList.add('wrong'); });
+      const why = q.e ? ' '+q.e : '';
+      fb.innerHTML = '';
+      fb.append(h('b',null, j===q.a ? 'Correct.' : 'Not quite.'), j===q.a ? why : ` The answer is: ${q.o[q.a]}.${why}`);
+    };
+    q.o.forEach((o,j)=>{ const b = h('button',{class:'opt',type:'button','aria-pressed':'false'}, o);
+      b.onclick = () => { if (ans[i]!=null) return; ans[i]=j; mark(j); }; opts.append(b); });
+    box.append(opts, fb); sq.append(box);
+    if (ans[i]!=null) mark(ans[i]); });
+  main.append(h('div',{class:'card'}, h('h3',null,'1. Where are you starting from?'), h('p',{class:'lede',style:'margin-bottom:12px'},'Three quick questions. Each answer is marked straight away. There is no pass mark: your answers just set the right pace for you.'), sq));
   const tSel = seg([[5,'5 minutes'],[10,'10 minutes'],[20,'20 minutes or more']], plan.time, v=>plan.time=v, 'Time per session');
   const stSel = seg([['listen','Listen and watch'],['read','Read at my own pace']], plan.style, v=>plan.style=v, 'Learning style');
   const rSel = seg([[0.8,'Slower'],[0.95,'Normal'],[1.15,'Faster']], plan.rate, v=>plan.rate=v, 'Speaking speed');
