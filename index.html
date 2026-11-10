@@ -56,7 +56,7 @@ a.ch:hover{border-color:var(--accent)}
     <div><b>4. Final test and index</b><span>Your learning index shows knowledge, applying it, self-awareness and completion.</span></div>
   </section>
   <section><h2 style="font-size:1.4rem;margin-bottom:10px">Chapters</h2><div class="grid" id="grid"></div>
-    <p class="foot" style="margin-top:10px">The book has 18 chapters. Further chapters are added to this course as they are completed.</p></section>
+    <p class="foot" style="margin-top:10px">The book has 18 chapters. Chapters marked "Coming soon" are being added in order.</p></section>
   <p class="foot">Your progress is stored in this browser only. Nothing is sent anywhere. Use the same browser and device to keep your record, and download a certificate from each chapter as proof. Course by Prof Muthu Ramachandran.</p>
 </div>
 <script>
@@ -64,7 +64,21 @@ const UNITS = [
   {"id":"ch01","num":"1","title":"Modern Threat Landscape and AI Opportunities"},
   {"id":"ch02","num":"2","title":"Cybersecurity Frameworks in the AI Era"},
   {"id":"ch03","num":"3","title":"AI Security Architecture and Infrastructure"},
-  {"id":"ch04","num":"4","title":"Machine Learning for Threat Detection"}
+  {"id":"ch04","num":"4","title":"Machine Learning for Threat Detection"},
+  {"id":"ch05","num":"5","title":"Advanced Analytics and Threat Intelligence"},
+  {"id":"ch06","num":"6","title":"AI Security Implementation Case Studies"},
+  {"id":"ch07","num":"7","title":"AI-Enhanced Secure SDLC and Secure Requirements Engineering"},
+  {"id":"ch08","num":"8","title":"Threat Modelling and Secure Design Best Practices for AI-Enhanced Systems"},
+  {"id":"ch09","num":"9","title":"AI-Powered Secure Software Development and Static Code Analysis"},
+  {"id":"ch10","num":"10","title":"Security Testing, Validation and Deployment Automation"},
+  {"id":"ch11","num":"11","title":"Secure Software Development Frameworks and Standards"},
+  {"id":"ch12","num":"12","title":"Data Protection and Privacy in AI Systems"},
+  {"id":"ch13","num":"13","title":"Application Security with Machine Learning"},
+  {"id":"ch14","num":"14","title":"Secure Coding Best Practices for AI"},
+  {"id":"ch15","num":"15","title":"Automated Incident Response and Orchestration"},
+  {"id":"ch16","num":"16","title":"Ethics, Governance, Risks, Compliance and Sovereignty of AI for Cybersecurity"},
+  {"id":"ch17","num":"17","title":"AI Security and Adversarial Defences"},
+  {"id":"ch18","num":"18","title":"Future Directions and Emerging Threats in AI-Enabled Cybersecurity"}
 ];
 const grid = document.getElementById('grid');
 function h(tag, attrs, ...kids){ const e=document.createElement(tag); if(attrs) for(const [k,v] of Object.entries(attrs)){ if(k==='class') e.className=v; else e.setAttribute(k,v);} for(const k of kids.flat()) if(k!=null&&k!==false) e.append(k.nodeType?k:document.createTextNode(k)); return e; }
